@@ -17,7 +17,7 @@
 
 ## 📋 Sobre
 
-O **Distributed Voting System** é uma aplicação empresarial que implementa um sistema completo de votação eletrônica distribuída, permitindo que múltiplos eleitores participem simultaneamente de eleições seguras através de uma rede TCP/IP[web:1][web:2].
+O **Distributed Voting System** é uma aplicação que implementa um sistema completo de votação eletrônica distribuída, permitindo que múltiplos eleitores participem simultaneamente de eleições seguras através de uma rede TCP/IP[web:1][web:2].
 
 **Desenvolvido para:** SI400 – Programação Orientada a Objetos II | 2º Semestre 2025  
 **Orientador:** Prof. Dr. André F. de Angelis
