@@ -11,13 +11,6 @@
 <img src="https://img.shields.io/badge/Multithreading-Active-00D084?style=for-the-badge&logo=java&logoColor=white" alt="Multithreading" />
 <img src="https://img.shields.io/badge/GUI-Swing-5382A1?style=for-the-badge&logo=java&logoColor=white" alt="Swing" />
 <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT" />
-
-[Características](#-características-principais) •
-[Instalação](#-instalação) •
-[Como Usar](#-como-usar) •
-[Arquitetura](#-arquitetura) •
-[Documentação](#-documentação)
-
 </div>
 
 ---
