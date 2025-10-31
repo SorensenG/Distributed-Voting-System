@@ -1,101 +1,106 @@
-<h1 align="center">🗳️ Distributed Voting System</h1>
+<div align="center">
 
-<p align="center">
-  <strong>Sistema de votação eletrônica distribuída usando Java TCP/IP</strong>
-</p>
+# 🗳️ Distributed Voting System
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Java-17%2B-orange?style=for-the-badge&logo=openjdk" alt="Java 17+" />
-  <img src="https://img.shields.io/badge/Paradigm-Client--Server-blue?style=for-the-badge&logo=socketdotio" alt="Client-Server" />
-  <img src="https://img.shields.io/badge/Multithreading-Enabled-success?style=for-the-badge&logo=java" alt="Multithreading" />
-  <img src="https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge" alt="MIT License" />
-</p>
+### Sistema de Votação Eletrônica Distribuída com Arquitetura Cliente-Servidor
 
----
+*Plataforma segura e escalável para eleições digitais utilizando TCP/IP e processamento concorrente*
 
-## 🔍 Sobre o Projeto
+<img src="https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 17+" />
+<img src="https://img.shields.io/badge/TCP/IP-Sockets-0078D7?style=for-the-badge&logo=cisco&logoColor=white" alt="TCP/IP" />
+<img src="https://img.shields.io/badge/Multithreading-Active-00D084?style=for-the-badge&logo=java&logoColor=white" alt="Multithreading" />
+<img src="https://img.shields.io/badge/GUI-Swing-5382A1?style=for-the-badge&logo=java&logoColor=white" alt="Swing" />
+<img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT" />
 
-O **Distributed Voting System** é uma aplicação client-servidor desenvolvida em Java que simula um processo de votação eletrônica seguro e distribuído utilizando comunicação **TCP/IP**, **object streams** e **multithreading**.
+[Características](#-características-principais) •
+[Instalação](#-instalação) •
+[Como Usar](#-como-usar) •
+[Arquitetura](#-arquitetura) •
+[Documentação](#-documentação)
 
-Este projeto foi desenvolvido para o módulo de *Sistemas Distribuídos* com o objetivo de aplicar conceitos práticos de redes, programação concorrente e design de interfaces gráficas com **Java Swing**.
-
-### 🎯 Objetivos
-
-- Implementar um sistema de votação distribuído e escalável
-- Garantir a integridade dos votos através de validação de CPF
-- Permitir votação simultânea de múltiplos clientes
-- Exibir resultados em tempo real para o administrador
+</div>
 
 ---
 
-## ✨ Funcionalidades
+## 📋 Sobre
 
-### 🖥️ Módulo Servidor
+O **Distributed Voting System** é uma aplicação empresarial que implementa um sistema completo de votação eletrônica distribuída, permitindo que múltiplos eleitores participem simultaneamente de eleições seguras através de uma rede TCP/IP[web:1][web:2].
 
-- ✅ Aceita múltiplas conexões simultâneas de clientes (multithreading)
-- ✅ Valida CPF e previne votos duplicados
-- ✅ Exibe resultados da votação em tempo real através de dashboard Swing
-- ✅ Gera relatório final (`results.txt`) ao término da eleição
-- ✅ Controle administrativo para iniciar/encerrar votações
+**Desenvolvido para:** SI400 – Programação Orientada a Objetos II | 2º Semestre 2025  
+**Orientador:** Prof. Dr. André F. de Angelis
 
-### 🗳️ Módulo Cliente
+### 🎯 Por que este projeto?
 
-- ✅ Conecta ao servidor via TCP/IP
-- ✅ Recebe a pergunta da eleição e opções disponíveis
-- ✅ Autenticação via CPF
-- ✅ Permite envio de um único voto por eleitor
-- ✅ Interface amigável construída com **Swing**
+- **Concorrência Real**: Gerencia centenas de conexões simultâneas usando threads Java
+- **Segurança**: Validação de CPF e prevenção de votos duplicados com estruturas thread-safe
+- **Tempo Real**: Dashboard administrativo com atualização instantânea dos resultados
+- **Multiplataforma**: Exportação automática em TXT, CSV e JSON
 
 ---
 
-## 🏗️ Arquitetura
+## ✨ Características Principais
 
-O sistema utiliza uma arquitetura client-servidor com os seguintes componentes:
+<table>
+<tr>
+<td width="50%">
 
-| Camada | Pacote | Descrição |
-|--------|---------|-----------|
-| **Common** | `common.*` | Classes serializáveis compartilhadas e tipos de mensagens |
-| **Server** | `server.core` | Lógica multithreaded do servidor e validação de votos |
-| **Client** | `client.core` | Comunicação client-servidor e submissão de votos |
-| **GUI** | `server.gui` / `client.gui` | Interfaces Java Swing para ambos os módulos |
+### 🖥️ Servidor
 
-### 🔄 Fluxo de Comunicação
+- ✅ **Gerenciamento Concorrente**: Suporte a múltiplos clientes via `ClientHandler` threads
+- ✅ **Dashboard Administrativo**: Interface Swing com gráficos em tempo real
+- ✅ **Validação Robusta**: Sistema anti-fraude com verificação de CPF
+- ✅ **Exportação Múltipla**: Relatórios em TXT, CSV e JSON
+- ✅ **Sincronização Thread-Safe**: `ConcurrentHashMap` para dados críticos
 
-1. **Cliente** se conecta ao servidor via Socket TCP/IP
-2. **Servidor** cria uma thread dedicada para cada client
-3. **Cliente** recebe dados da eleição via ObjectInputStream
-4. **Cliente** envia voto autenticado via ObjectOutputStream
-5. **Servidor** valida CPF, registra voto e atualiza dashboard
-6. **Servidor** envia confirmação ao client
+</td>
+<td width="50%">
 
----
+### 🗳️ Cliente
 
-## 🛠 Tecnologias Utilizadas
+- ✅ **Interface Intuitiva**: GUI Swing com navegação por abas
+- ✅ **Conexão Estável**: Socket TCP/IP com tratamento de erros
+- ✅ **Autenticação Segura**: Validação de CPF antes do voto
+- ✅ **Feedback Visual**: Confirmação imediata do voto registrado
+- ✅ **Modo Offline**: Sistema de ajuda integrado
 
-- **Java 17+** - Linguagem de programação
-- **Java Swing** - Interface gráfica
-- **TCP/IP Sockets** - Comunicação de rede
-- **ObjectInputStream/OutputStream** - Serialização de objetos
-- **Multithreading** - Processamento concorrente
-- **Maven/Gradle** *(opcional)* - Gerenciamento de dependências
+</td>
+</tr>
+</table>
 
 ---
 
-## 📋 Pré-requisitos
+## 🚀 Instalação
 
-Antes de começar, você precisará ter instalado:
+### Pré-requisitos
 
-- [Java JDK 17+](https://www.oracle.com/java/technologies/downloads/)
-- [Git](https://git-scm.com)
-- IDE de sua preferência (IntelliJ IDEA, Eclipse, VS Code)
+☕ Java 17 ou superior
+📦 JDK instalado e configurado no PATH
+## 🎮 Como Usar
 
----
-## 👤 Autor
+### 1️⃣ Iniciar o Servidor
 
-**Gabriel Sorense**
-- GitHub: [SorensenG](https://github.com/SorensenG)
-- LinkedIn: [Gabriel Sorensen M Traina](https://www.linkedin.com/in/gabriel-sorensen/)
-- Email: g.soren.sen2004@gmail.com
+Via terminal
+java -cp bin server.core.VotingServer
 
----
+Ou execute a classe VotingServer pelo seu IDE
+text
+
+O servidor iniciará na **porta 28399** e abrirá o dashboard administrativo automaticamente.
+
+### 2️⃣ Conectar Clientes
+
+Em outro terminal (ou máquina diferente)
+java -cp bin cliente.core.VotingClient
+
+Configure o IP do servidor quando solicitado
+text
+
+Cada cliente receberá a cédula eleitoral e poderá votar após validação de CPF.
+
+### 3️⃣ Encerrar Eleição
+
+No dashboard do servidor, clique em **"Encerrar Eleição"** para:
+- Fechar novas conexões
+- Gerar relatórios automáticos
+- Exibir estatísticas finais
 
