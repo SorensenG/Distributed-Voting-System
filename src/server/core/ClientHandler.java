@@ -17,7 +17,7 @@ public class ClientHandler implements Runnable {
     private final Socket socket;
     private final Election election;
     private final VoteManager voteManager;
-    private final ServerDashboard dashboard; // 🧩 novo campo
+    private final ServerDashboard dashboard;
 
     public ClientHandler(Socket socket, Election election, VoteManager voteManager, ServerDashboard dashboard) {
         this.socket = socket;
@@ -31,10 +31,8 @@ public class ClientHandler implements Runnable {
         try (ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
-            // Envia dados da eleição ao cliente
             out.writeObject(new Message(ELECTION_DATA, election));
 
-            // Recebe o voto do cliente
             Message received = (Message) in.readObject();
 
             if (received.getType() == VOTE_SUBMISSION) {
@@ -47,21 +45,20 @@ public class ClientHandler implements Runnable {
 
                     if (success) {
                         out.writeObject(new Message(SERVER_RESPONSE, "Voto computado com sucesso!"));
-                        System.out.println("✔ Voto recebido: " + cpfObj.getFormatted() + " → " + vote.getOption());
+                        System.out.println(" Voto recebido: " + cpfObj.getFormatted() + " → " + vote.getOption());
 
-                        // 🧩 Atualiza o painel visual em tempo real
                         if (dashboard != null) {
                             SwingUtilities.invokeLater(() -> dashboard.refreshResults());
                         }
 
                     } else {
                         out.writeObject(new Message(ERROR, "CPF já votou anteriormente!"));
-                        System.out.println("⚠ Tentativa duplicada: " + cpfObj.getFormatted());
+                        System.out.println("Tentativa duplicada: " + cpfObj.getFormatted());
                     }
 
                 } catch (IllegalArgumentException e) {
                     out.writeObject(new Message(ERROR, "CPF inválido: " + e.getMessage()));
-                    System.out.println("❌ CPF inválido recebido: " + e.getMessage());
+                    System.out.println("CPF inválido recebido: " + e.getMessage());
                 }
             }
 

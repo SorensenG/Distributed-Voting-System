@@ -1,9 +1,6 @@
 package common.network;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-public class Message implements Serializable {
+public class Message extends NetworkPrimitive {
 
     public enum MessageType {
         ELECTION_DATA,
@@ -15,14 +12,14 @@ public class Message implements Serializable {
 
     private final MessageType type;
     private final Object data;
-    private final LocalDateTime timestamp;
 
     public Message(MessageType type, Object data) {
+        super();
         this.type = type;
         this.data = data;
-        this.timestamp = LocalDateTime.now();
     }
 
+    @Override
     public MessageType getType() {
         return type;
     }
@@ -31,16 +28,11 @@ public class Message implements Serializable {
         return data;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
     @Override
     public String toString() {
         return "Message{" +
                 "type=" + type +
                 ", data=" + data +
-                ", timestamp=" + timestamp +
                 '}';
     }
 }

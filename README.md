@@ -15,7 +15,7 @@
 
 ## 🔍 Sobre o Projeto
 
-O **Distributed Voting System** é uma aplicação cliente-servidor desenvolvida em Java que simula um processo de votação eletrônica seguro e distribuído utilizando comunicação **TCP/IP**, **object streams** e **multithreading**.
+O **Distributed Voting System** é uma aplicação client-servidor desenvolvida em Java que simula um processo de votação eletrônica seguro e distribuído utilizando comunicação **TCP/IP**, **object streams** e **multithreading**.
 
 Este projeto foi desenvolvido para o módulo de *Sistemas Distribuídos* com o objetivo de aplicar conceitos práticos de redes, programação concorrente e design de interfaces gráficas com **Java Swing**.
 
@@ -50,23 +50,23 @@ Este projeto foi desenvolvido para o módulo de *Sistemas Distribuídos* com o o
 
 ## 🏗️ Arquitetura
 
-O sistema utiliza uma arquitetura cliente-servidor com os seguintes componentes:
+O sistema utiliza uma arquitetura client-servidor com os seguintes componentes:
 
 | Camada | Pacote | Descrição |
 |--------|---------|-----------|
 | **Common** | `common.*` | Classes serializáveis compartilhadas e tipos de mensagens |
 | **Server** | `server.core` | Lógica multithreaded do servidor e validação de votos |
-| **Client** | `client.core` | Comunicação cliente-servidor e submissão de votos |
+| **Client** | `client.core` | Comunicação client-servidor e submissão de votos |
 | **GUI** | `server.gui` / `client.gui` | Interfaces Java Swing para ambos os módulos |
 
 ### 🔄 Fluxo de Comunicação
 
 1. **Cliente** se conecta ao servidor via Socket TCP/IP
-2. **Servidor** cria uma thread dedicada para cada cliente
+2. **Servidor** cria uma thread dedicada para cada client
 3. **Cliente** recebe dados da eleição via ObjectInputStream
 4. **Cliente** envia voto autenticado via ObjectOutputStream
 5. **Servidor** valida CPF, registra voto e atualiza dashboard
-6. **Servidor** envia confirmação ao cliente
+6. **Servidor** envia confirmação ao client
 
 ---
 

@@ -6,8 +6,6 @@ import server.core.VoteManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Map;
@@ -17,6 +15,7 @@ public class ServerDashboard extends JFrame {
     private final VoteManager voteManager;
     private final Election election;
     private final ServerSocket serverSocket;
+
     private DefaultTableModel tableModel;
     private JLabel totalLabel;
 
@@ -25,24 +24,26 @@ public class ServerDashboard extends JFrame {
         this.voteManager = manager;
         this.serverSocket = serverSocket;
 
-        setTitle("Painel do Servidor - Monitoramento da Votação");
-        setSize(500, 420);
+        setTitle("Painel do Servidor - Votação Distribuída");
+        setSize(600, 470);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
         initUI();
-        refreshResults();
-
-        // Garante que ao clicar no X o servidor seja encerrado corretamente
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                closeServer();
-            }
-        });
     }
 
     private void initUI() {
+        JTabbedPane tabs = new JTabbedPane();
+
+        tabs.addTab("Votação", createVotePanel());
+        tabs.addTab("Ajuda", createHelpPanel());
+        tabs.addTab("Créditos", createCreditsPanel());
+
+        add(tabs);
+    }
+
+    private JPanel createVotePanel() {
         JPanel main = new JPanel(new BorderLayout(10, 10));
         main.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -58,12 +59,10 @@ public class ServerDashboard extends JFrame {
         totalLabel = new JLabel("Total de eleitores: 0", SwingConstants.CENTER);
         totalLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
-        // Botão de encerrar eleição
         JButton endButton = new JButton("Encerrar Eleição");
         endButton.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        endButton.setBackground(new Color(200, 50, 50));
+        endButton.setBackground(new Color(255, 0, 0));
         endButton.setForeground(Color.WHITE);
-        endButton.setFocusPainted(false);
         endButton.addActionListener(e -> closeServer());
 
         JPanel footer = new JPanel(new BorderLayout(10, 10));
@@ -71,10 +70,58 @@ public class ServerDashboard extends JFrame {
         footer.add(endButton, BorderLayout.SOUTH);
 
         main.add(footer, BorderLayout.SOUTH);
-        add(main);
+        return main;
     }
 
-    /** Atualiza os resultados na tabela em tempo real */
+    private JPanel createHelpPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JTextArea helpText = new JTextArea(
+                "AJUDA E INSTRUÇÕES DO SERVIDOR\n\n" +
+                        "Conexão dos clientes:\n" +
+                        "   - Cada cliente que executar o programa 'VotingClient'\n" +
+                        "     se conectará automaticamente ao servidor.\n" +
+                        "   - O cliente verá a pergunta e as opções de voto,\n" +
+                        "     e enviará seu voto junto com o CPF.\n\n" +
+                        "Atualização em tempo real:\n" +
+                        "   - Cada voto recebido é contabilizado automaticamente.\n" +
+                        "   - A tabela de resultados e o total de eleitores são\n" +
+                        "     atualizados em tempo real no painel de votação.\n\n" +
+                        "Encerrando a eleição:\n" +
+                        "   - Clique no botão 'Encerrar Eleição' para finalizar o processo.\n" +
+                        "   - Um relatório final será gerado automaticamente\n" +
+                        "     no diretório do projeto com o nome 'results_<data>.txt'.\n\n" +
+                        "Dicas:\n" +
+                        "   - Certifique-se de que o servidor esteja em execução antes\n" +
+                        "     de iniciar os clientes.\n" +
+                        "   - Evite fechar o painel pelo 'X' do Windows. Use o botão\n" +
+                        "     'Encerrar Eleição' para garantir o encerramento correto.\n" +
+                        "   - Caso um cliente não consiga conectar, verifique se a porta\n" +
+                        "     28399 está livre e o firewall permite conexões locais.\n"
+        );
+
+        helpText.setEditable(false);
+        helpText.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        helpText.setBackground(new Color(250, 250, 250));
+        helpText.setMargin(new Insets(10, 10, 10, 10));
+
+        panel.add(new JScrollPane(helpText), BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel createCreditsPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JTextArea info = new JTextArea(
+                "Sistema de Votação Distribuída\n\n" +
+                        "Desenvolvido por:\n" +
+                        "• Gabriel Sorensen M. Traina - 283997\n" +
+
+        );
+        info.setEditable(false);
+        info.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        panel.add(new JScrollPane(info), BorderLayout.CENTER);
+        return panel;
+    }
+
     public void refreshResults() {
         Map<String, Integer> results = voteManager.countVotes();
         tableModel.setRowCount(0);
@@ -84,7 +131,6 @@ public class ServerDashboard extends JFrame {
         totalLabel.setText("Total de eleitores: " + voteManager.getTotalVoters());
     }
 
-    /** Gera relatório, fecha o servidor e encerra o app */
     private void closeServer() {
         try {
             voteManager.generateReport();

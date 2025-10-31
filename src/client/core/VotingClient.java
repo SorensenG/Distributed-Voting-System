@@ -1,10 +1,10 @@
-package cliente.core;
+package client.core;
 
 import common.model.Election;
 import common.model.Vote;
 import common.network.Message;
 
-import javax.swing.*; // necessário para SwingUtilities
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -20,9 +20,6 @@ public class VotingClient {
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
-    // ==========================
-    // MODO PRINCIPAL
-    // ==========================
     public static void main(String[] args) {
         new VotingClient().start();
     }
@@ -30,18 +27,16 @@ public class VotingClient {
     public void start() {
         try {
             Election election = connect();
-            System.out.println("✅ Conectado ao servidor!");
+            System.out.println("Conectado ao servidor!");
 
-            // 🔹 Abre a janela Swing automaticamente
             SwingUtilities.invokeLater(() -> {
-                cliente.ui.VotingFrame frame = new cliente.ui.VotingFrame(this, election);
+                client.ui.VotingFrame frame = new client.ui.VotingFrame(this, election);
                 frame.setVisible(true);
             });
 
-            // 💬 Mantém também o modo terminal (opcional)
             Scanner sc = new Scanner(System.in);
 
-            System.out.println("\n🗳️ " + election.getQuestion());
+            System.out.println("\n" + election.getQuestion());
             List<String> options = election.getOptions();
 
             for (int i = 0; i < options.size(); i++) {
@@ -59,7 +54,7 @@ public class VotingClient {
                     sc.nextLine();
                 } else {
                     sc.nextLine();
-                    System.out.println("❌ Opção inválida! Digite um número.");
+                    System.out.println("Opção inválida! Digite um número.");
                 }
             }
 
@@ -67,7 +62,7 @@ public class VotingClient {
             Vote vote = new Vote(cpf, option);
 
             String response = sendVote(vote);
-            System.out.println("\n📩 Resposta do servidor: " + response);
+            System.out.println("\nResposta do servidor: " + response);
 
             close();
 
@@ -76,13 +71,6 @@ public class VotingClient {
         }
     }
 
-    // ==========================
-    // MÉTODOS USADOS PELA GUI
-    // ==========================
-
-    /**
-     * Conecta ao servidor e retorna a eleição carregada.
-     */
     public Election connect() throws IOException, ClassNotFoundException {
         socket = new Socket(host, port);
         out = new ObjectOutputStream(socket.getOutputStream());
@@ -96,9 +84,6 @@ public class VotingClient {
         }
     }
 
-    /**
-     * Envia um voto e retorna a resposta textual do servidor.
-     */
     public String sendVote(Vote vote) throws IOException, ClassNotFoundException {
         if (out == null || in == null) {
             throw new IllegalStateException("Cliente não conectado ao servidor.");
@@ -108,16 +93,13 @@ public class VotingClient {
         Message response = (Message) in.readObject();
 
         return switch (response.getType()) {
-            case SERVER_RESPONSE -> "✅ " + response.getData();
-            case ERROR -> "❌ " + response.getData();
-            case END_ELECTION -> "🛑 " + response.getData();
-            default -> "⚠️ Resposta desconhecida do servidor.";
+            case SERVER_RESPONSE -> response.getData().toString();
+            case ERROR -> response.getData().toString();
+            case END_ELECTION -> response.getData().toString();
+            default -> "Resposta desconhecida do servidor.";
         };
     }
 
-    /**
-     * Fecha a conexão com o servidor.
-     */
     public void close() {
         try {
             if (socket != null) socket.close();

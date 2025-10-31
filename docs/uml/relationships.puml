@@ -1,0 +1,76 @@
+@startuml
+hide members
+
+package "common.network" {
+  abstract class NetworkPrimitive
+  class Message
+  enum MessageType
+}
+
+package "common.model" {
+  class Election
+  class Vote
+}
+
+package "common.utils" {
+  class CPF
+}
+
+package "client.core" {
+  class VotingClient
+}
+
+package "client.ui" {
+  class VotingFrame
+}
+
+package "server.core" {
+  class VotingServer
+  class ClientHandler
+  class VoteManager
+}
+
+package "server.ui" {
+  class ServerDashboard
+}
+
+' Interfaces/classes externas usadas por herança/implementação
+interface Serializable
+interface Runnable
+class JFrame
+
+' Heranças/implementações
+Message --|> NetworkPrimitive
+NetworkPrimitive ..|> Serializable
+Election ..|> Serializable
+Vote ..|> Serializable
+ClientHandler ..|> Runnable
+VotingFrame --|> JFrame
+ServerDashboard --|> JFrame
+
+' Associações principais entre classes do projeto
+VotingClient --> VotingFrame
+VotingClient --> Message
+VotingClient --> Election
+VotingClient --> Vote
+
+VotingServer --> VoteManager
+VotingServer --> Election
+VotingServer --> ServerDashboard
+VotingServer --> ClientHandler
+
+ClientHandler --> Election
+ClientHandler --> Vote
+ClientHandler --> CPF
+ClientHandler --> Message
+ClientHandler --> ServerDashboard
+
+ServerDashboard --> VoteManager
+ServerDashboard --> Election
+
+VoteManager --> Election
+
+' Enum interna usada por Message
+Message ..> MessageType : usa
+
+@enduml

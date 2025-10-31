@@ -1,0 +1,17 @@
+RELATÓRIO FINAL DA ELEIÇÃO
+======================================
+Pergunta: Qual é a sua linguagem de programação favorita?
+--------------------------------------
+Java: 2 voto(s)  ← VENCEDOR
+C++: 0 voto(s)
+C: 0 voto(s)
+Python: 0 voto(s)
+JavaScript: 0 voto(s)
+--------------------------------------
+Total de eleitores: 2
+Eleitores e seus votos:
+ - 36087975802 → Java
+ - 52593848812 → Java
+======================================
+VENCEDOR: JAVA com 2 voto(s)!
+======================================

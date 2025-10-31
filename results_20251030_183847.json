@@ -1,0 +1,19 @@
+{
+  "titulo": "RELATÓRIO FINAL DA ELEIÇÃO",
+  "pergunta": "Qual é a sua linguagem de programação favorita?",
+  "resultados": {
+    "Java": 2,
+    "C++": 0,
+    "C": 0,
+    "Python": 0,
+    "JavaScript": 0
+  },
+  "totalEleitores": 2,
+  "eleitores": {
+    "36087975802": "Java",
+    "52593848812": "Java"
+  },
+  "vencedores": [
+    "Java"
+  ]
+}
